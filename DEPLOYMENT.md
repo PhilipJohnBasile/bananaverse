@@ -2,12 +2,18 @@
 
 ## Quick Deploy Options
 
-### Option 1: Railway (Recommended - Easiest)
-1. Fork/push your code to GitHub
-2. Go to [railway.app](https://railway.app)
-3. "Deploy from GitHub" → Select your repo
-4. Add environment variable: `GOOGLE_AI_API_KEY`
-5. Deploy! ⚡
+### Option 1: Railway ✅ (Successfully Deployed!)  
+**Live Demo**: https://web-production-17b25.up.railway.app
+
+**Steps taken:**
+1. ✅ Pushed code to GitHub: https://github.com/PhilipJohnBasile/bananaverse
+2. ✅ Connected Railway to GitHub repo
+3. ✅ Added `railway.toml` for Docker build configuration
+4. ✅ Fixed Railway settings:
+   - Pre-deploy Command: *(empty)*
+   - Custom Start Command: `./bananaverse`  
+5. ✅ Set environment variable: `GOOGLE_AI_API_KEY`
+6. ✅ Successfully deployed! 🚀
 
 ### Option 2: Google Cloud Run
 ```bash
@@ -75,10 +81,10 @@ PORT=8080  # Optional, defaults to 8080
 - [ ] Get shareable link
 
 ### 2. 🔗 Public Project Link  
-- [ ] Deploy to Railway/Cloud Run/Heroku
-- [ ] Test deployed version works
-- [ ] Ensure no login required
-- [ ] Get public URL
+- [x] ✅ **Deployed to Railway**: https://web-production-17b25.up.railway.app
+- [x] ✅ **Tested deployed version** - all features working
+- [x] ✅ **No login required** - publicly accessible
+- [x] ✅ **Public URL obtained** and ready for submission
 
 ### 3. 📝 Gemini Integration Writeup
 - [x] GEMINI_INTEGRATION.md (200 words max)

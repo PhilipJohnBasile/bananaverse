@@ -2,8 +2,8 @@
 
 **Transform your selfies into epic toy adventures with Google Gemini AI!**
 
-[![Demo Video](https://img.shields.io/badge/▶️_Demo_Video-YouTube-red)](# "Add your video link here")
-[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-Try_Now-brightgreen)](# "Add your deployed URL here")
+[![Demo Video](https://img.shields.io/badge/▶️_Demo_Video-YouTube-red)](https://youtu.be/YOUR_VIDEO_ID "2-minute BananaVerse Demo")
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-Try_Now-brightgreen)](https://web-production-17b25.up.railway.app "Live BananaVerse App")
 
 ## 🎯 What is BananaVerse?
 
@@ -26,7 +26,7 @@ BananaVerse turns your photos into personalized toy figurines and places them in
 ### Setup
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/bananaverse.git
+git clone https://github.com/PhilipJohnBasile/bananaverse.git
 cd bananaverse
 
 # Install dependencies
@@ -123,11 +123,10 @@ bananaverse/
 
 ## 🚀 Deployment
 
-Ready for deployment on:
-- **Google Cloud Run** (recommended)  
-- **Railway**
-- **Heroku**
-- **Any Docker-compatible platform**
+✅ **Successfully deployed on Railway**:
+- **Live Demo**: https://web-production-17b25.up.railway.app
+- **Alternative platforms**: Google Cloud Run, Heroku, Render.com
+- **Containerized**: Uses optimized multi-stage Dockerfile
 
 ### Environment Variables
 ```bash
@@ -148,6 +147,7 @@ MIT License - Build amazing things! 🚀
 
 ## 🔗 Links
 
-- **Demo Video**: [Add your video link]
-- **Live Demo**: [Add your deployed URL]  
+- **Demo Video**: https://youtu.be/YOUR_VIDEO_ID
+- **Live Demo**: https://web-production-17b25.up.railway.app  
+- **GitHub**: https://github.com/PhilipJohnBasile/bananaverse
 - **Kaggle Competition**: https://www.kaggle.com/competitions/banana

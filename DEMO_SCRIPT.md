@@ -72,6 +72,6 @@
 - **Instagram Reels** - Great reach for demos
 
 ## 🔗 Links to Include
-- GitHub repository: [Your repo URL]
-- Live demo: [Your deployed URL]
-- Kaggle competition: https://www.kaggle.com/competitions/banana
+- **GitHub repository**: https://github.com/PhilipJohnBasile/bananaverse
+- **Live demo**: https://web-production-17b25.up.railway.app
+- **Kaggle competition**: https://www.kaggle.com/competitions/banana
