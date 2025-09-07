@@ -1,0 +1,430 @@
+/* BananaVerse Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header */
+.hero {
+    text-align: center;
+    padding: 40px 0;
+    color: white;
+}
+
+.logo {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.tagline {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    margin-bottom: 30px;
+}
+
+/* Workflow Steps */
+.workflow {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.step {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.step:hover {
+    transform: translateY(-2px);
+}
+
+.step h2 {
+    color: #4a5568;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+/* Buttons */
+.btn-primary, .btn-secondary, .btn-capture {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-secondary {
+    background: #e2e8f0;
+    color: #4a5568;
+}
+
+.btn-secondary:hover {
+    background: #cbd5e0;
+}
+
+.btn-capture {
+    background: #48bb78;
+    color: white;
+    font-size: 1.2rem;
+    padding: 15px 30px;
+}
+
+.btn-capture:hover {
+    background: #38a169;
+}
+
+/* Photo Controls */
+.photo-controls {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+#camera-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#camera-feed {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+#photo-canvas {
+    max-width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+.camera-controls {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Form Styles */
+.scene-form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.theme-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.theme-card {
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+}
+
+.theme-card:hover {
+    border-color: #667eea;
+    background: #f0f4ff;
+    transform: translateY(-2px);
+}
+
+/* Removed unused theme card CSS */
+
+.theme-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.theme-icon {
+    font-size: 2rem;
+}
+
+.theme-name {
+    font-weight: 600;
+    color: #4a5568;
+}
+
+.time-selection, .custom-prompt {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.time-selection label, .custom-prompt label {
+    font-weight: 600;
+    color: #4a5568;
+}
+
+.time-selection select, .custom-prompt input {
+    padding: 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.time-selection select:focus, .custom-prompt input:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.generate-btn, .transform-btn {
+    align-self: center;
+    padding: 15px 30px;
+    font-size: 1.1rem;
+}
+
+/* Photo Preview */
+.photo-preview {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.preview-image {
+    max-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    margin-bottom: 15px;
+}
+
+/* Result Containers */
+.result-container {
+    margin-top: 20px;
+    min-height: 50px;
+}
+
+.result-panel {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    border-left: 4px solid #48bb78;
+}
+
+.error-panel {
+    background: #fed7d7;
+    border-left-color: #e53e3e;
+}
+
+.figurine-image, .scene-image, .composed-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    margin-bottom: 15px;
+}
+
+.success {
+    color: #38a169;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.error {
+    color: #e53e3e;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+/* Comic Panel */
+.comic-panel {
+    position: relative;
+    display: inline-block;
+    border: 4px solid #333;
+    border-radius: 15px;
+    padding: 10px;
+    background: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    margin-bottom: 20px;
+}
+
+.caption {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 8px 12px;
+    border-radius: 20px;
+    border: 2px solid #333;
+    font-weight: bold;
+    text-align: center;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+/* Export Options */
+.export-options {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.instruction {
+    text-align: center;
+    color: #718096;
+    font-style: italic;
+    padding: 20px;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+.loading-text {
+    color: white;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Utility Classes */
+.hidden {
+    display: none !important;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 40px 0;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .logo {
+        font-size: 2rem;
+    }
+    
+    .step {
+        padding: 20px;
+    }
+    
+    .photo-controls {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .theme-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+    
+    .export-options {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .camera-controls {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* Upload form styles */
+#upload-form {
+    text-align: center;
+    padding: 20px;
+    border: 2px dashed #cbd5e0;
+    border-radius: 10px;
+    transition: border-color 0.3s ease;
+}
+
+#upload-form:hover {
+    border-color: #667eea;
+    background: #f8f9ff;
+}
+
+#photo-input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+/* Comic builder styles */
+#comic-builder {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+#comic-panels {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}

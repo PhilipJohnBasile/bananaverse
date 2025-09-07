@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BananaVerse - Transform Your Selfie Into Epic Adventures (v2.1)</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script src="/static/js/camera.js"></script>
+    <script src="/static/js/export.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header class="hero">
+            <h1 class="logo">🍌 BananaVerse</h1>
+            <p class="tagline">Transform your selfie into epic toy adventures!</p>
+        </header>
+
+        <div class="workflow">
+            <!-- Step 1: Photo Capture -->
+            <section class="step" id="photo-step">
+                <h2>📸 Step 1: Capture Your Photo</h2>
+                <div class="photo-controls">
+                    <button id="camera-btn" class="btn-primary">📱 Use Camera</button>
+                    <button id="upload-btn" class="btn-secondary">📁 Upload Photo</button>
+                </div>
+                
+                <div id="camera-container" class="hidden">
+                    <video id="camera-feed" autoplay playsinline></video>
+                    <canvas id="photo-canvas" class="hidden"></canvas>
+                    <div class="camera-controls">
+                        <button id="capture-btn" class="btn-capture">📷 Capture</button>
+                        <button id="retake-btn" class="btn-secondary hidden">🔄 Retake</button>
+                        <button id="use-photo-btn" class="btn-primary hidden">✅ Use This Photo</button>
+                    </div>
+                </div>
+
+                <form id="upload-form" class="hidden" enctype="multipart/form-data" hx-post="/hx/figurine" hx-target="#figurine-container" hx-encoding="multipart/form-data">
+                    <input type="file" id="photo-input" name="photo" accept="image/*" capture="environment">
+                    <div class="photo-preview" id="photo-preview"></div>
+                </form>
+
+                <div id="figurine-container" class="result-container"></div>
+            </section>
+
+            <!-- Step 2: Scene Selection -->
+            <section class="step" id="scene-step">
+                <h2>🎬 Step 2: Choose Your Adventure</h2>
+                <p class="instruction">Select a scene for your figurine adventure:</p>
+                
+                <div class="adventure-buttons" id="adventure-buttons" style="margin: 20px 0; text-align: center; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; max-width: 600px; margin: 20px auto;">
+                    <!-- Adventure buttons will be generated randomly by JavaScript -->
+                </div>
+                
+                <div style="text-align: center; margin: 10px 0;">
+                    <button onclick="generateRandomAdventures()" class="btn-secondary">🎲 Show Different Adventures</button>
+                </div>
+
+                <div id="scene-container" class="result-container"></div>
+            </section>
+
+            <!-- Step 3: Merge Images -->
+            <section class="step" id="compose-step">
+                <h2>🎨 Step 3: Merge Your Images</h2>
+                <div class="composition-controls">
+                    <button id="manual-compose-btn" class="btn-primary" onclick="manualCompose()">🎨 Merge Figurine & Scene</button>
+                    <p id="compose-status" class="instruction">Click above to merge your figurine into the adventure scene!</p>
+                </div>
+                <div id="composition-container" class="result-container"></div>
+            </section>
+        </div>
+
+        <footer>
+            <p>Powered by Google Gemini AI • Built with ❤️ for creative adventures</p>
+        </footer>
+    </div>
+
+    <div id="loading-overlay" class="loading-overlay hidden">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">Creating magic with AI...</p>
+    </div>
+
+    <script>
+        function generateRandomAdventures() {
+            console.log('🎲 Generating random adventures from server...');
+            
+            fetch('/hx/random-adventures')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('adventure-buttons').innerHTML = html;
+                    
+                    // Add hover effects to the new buttons
+                    const buttons = document.querySelectorAll('.btn-adventure');
+                    buttons.forEach(button => {
+                        button.addEventListener('mouseenter', function() {
+                            this.style.transform = 'translateY(-2px)';
+                            this.style.boxShadow = '0 8px 16px rgba(0,0,0,0.2)';
+                        });
+                        button.addEventListener('mouseleave', function() {
+                            this.style.transform = 'translateY(0)';
+                            this.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
+                        });
+                    });
+                })
+                .catch(error => {
+                    console.error('Failed to generate random adventures:', error);
+                    // Fallback message
+                    document.getElementById('adventure-buttons').innerHTML = '<p>Failed to load adventures. Please refresh the page.</p>';
+                });
+        }
+
+        // Initialize camera functionality when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCamera();
+            initializeFormHandlers();
+            generateRandomAdventures(); // Generate random adventure options
+            
+            // Force compose button to be visible always
+            const composeBtn = document.getElementById('manual-compose-btn');
+            if (composeBtn) {
+                composeBtn.classList.remove('hidden');
+                composeBtn.style.display = 'inline-block'; // Override any CSS hiding
+            }
+        });
+
+        // Show loading overlay during HTMX requests
+        document.body.addEventListener('htmx:beforeRequest', function(evt) {
+            console.log('HTMX request starting:', evt.detail);
+            document.getElementById('loading-overlay').classList.remove('hidden');
+        });
+
+        document.body.addEventListener('htmx:afterRequest', function(evt) {
+            console.log('HTMX request completed:', evt.detail);
+            document.getElementById('loading-overlay').classList.add('hidden');
+        });
+
+        document.body.addEventListener('htmx:responseError', function(evt) {
+            console.error('HTMX request error:', evt.detail);
+            alert('Request failed: ' + evt.detail.xhr.status);
+        });
+
+        // Auto-scroll to next step after successful operations
+        document.body.addEventListener('htmx:afterSwap', function(evt) {
+            const target = evt.detail.target;
+            if (target.id === 'figurine-container' && target.querySelector('.result-panel')) {
+                setTimeout(() => scrollToStep('scene-step'), 500);
+            } else if (target.id === 'scene-container' && target.querySelector('.result-panel')) {
+                setTimeout(() => scrollToStep('compose-step'), 500);
+            } else if (target.id === 'composition-container' && target.querySelector('.result-panel')) {
+                setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'center' }), 500);
+            }
+        });
+
+        function scrollToStep(stepId) {
+            document.getElementById(stepId).scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
+        }
+
+        function initializeFormHandlers() {
+            // Handle photo input change
+            document.getElementById('photo-input').addEventListener('change', function(e) {
+                if (e.target.files.length > 0) {
+                    showPhotoPreview(e.target.files[0]);
+                }
+            });
+
+            // Add hover effects to adventure buttons
+            const adventureButtons = document.querySelectorAll('.btn-adventure');
+            adventureButtons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                    this.style.boxShadow = '0 8px 16px rgba(0,0,0,0.2)';
+                });
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
+                });
+            });
+        }
+
+        function showPhotoPreview(file) {
+            const preview = document.getElementById('photo-preview');
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                preview.innerHTML = `
+                    <img src="${e.target.result}" alt="Photo Preview" class="preview-image">
+                    <button type="submit" class="btn-primary transform-btn">🎭 Transform to Figurine</button>
+                `;
+            };
+            
+            reader.readAsDataURL(file);
+        }
+
+        // Simplified - no auto-composition, just manual button
+
+        function manualCompose() {
+            console.log('🎭 === MANUAL COMPOSE TRIGGERED ===');
+            
+            // Debug: Check what containers exist
+            const figurineContainer = document.getElementById('figurine-container');
+            const sceneContainer = document.getElementById('scene-container');
+            console.log('🔍 Figurine container exists:', !!figurineContainer);
+            console.log('🔍 Scene container exists:', !!sceneContainer);
+            
+            if (figurineContainer) {
+                console.log('📦 Figurine container HTML preview:', figurineContainer.innerHTML.substring(0, 200) + '...');
+            }
+            if (sceneContainer) {
+                console.log('📦 Scene container HTML preview:', sceneContainer.innerHTML.substring(0, 200) + '...');
+            }
+            
+            // Get URLs directly from DOM instead of relying on stored variables
+            const figurineImg = document.querySelector('#figurine-container .figurine-image');
+            const sceneImg = document.querySelector('#scene-container .scene-image');
+            
+            console.log('🖼️ Found figurine img element:', !!figurineImg);
+            console.log('🖼️ Found scene img element:', !!sceneImg);
+            
+            if (figurineImg) {
+                console.log('🖼️ Figurine img src:', figurineImg.src);
+                console.log('🖼️ Figurine img class:', figurineImg.className);
+            }
+            if (sceneImg) {
+                console.log('🖼️ Scene img src:', sceneImg.src);
+                console.log('🖼️ Scene img class:', sceneImg.className);
+            }
+            
+            const figurineUrl = figurineImg ? figurineImg.src : null;
+            const backgroundUrl = sceneImg ? sceneImg.src : null;
+            
+            console.log('🔗 Final figurine URL:', figurineUrl);
+            console.log('🔗 Final background URL:', backgroundUrl);
+            
+            if (figurineUrl && backgroundUrl) {
+                console.log('Manually composing with:', figurineUrl, backgroundUrl);
+                document.getElementById('loading-overlay').classList.remove('hidden');
+                
+                fetch('/hx/compose', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `figurineUrl=${encodeURIComponent(figurineUrl)}&backgroundUrl=${encodeURIComponent(backgroundUrl)}`
+                })
+                .then(response => response.text())
+                .then(html => {
+                    console.log('Manual composition complete');
+                    document.getElementById('composition-container').innerHTML = html;
+                    document.getElementById('loading-overlay').classList.add('hidden');
+                    setTimeout(() => scrollToStep('export-step'), 500);
+                })
+                .catch(error => {
+                    console.error('Manual composition failed:', error);
+                    document.getElementById('loading-overlay').classList.add('hidden');
+                    alert('Composition failed: ' + error.message);
+                });
+            } else {
+                console.warn('Missing images - Figurine:', !!figurineUrl, 'Background:', !!backgroundUrl);
+                alert('Please complete steps 1 and 2 first!\nFigurine: ' + (figurineUrl ? 'Ready' : 'Missing') + '\nBackground: ' + (backgroundUrl ? 'Ready' : 'Missing'));
+            }
+        }
+
+
+        function generateDemoScene(theme, timeOfDay, prompt) {
+            console.log('Generating demo scene:', theme, timeOfDay, prompt);
+            document.getElementById('loading-overlay').classList.remove('hidden');
+            
+            fetch('/hx/scene', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `theme=${encodeURIComponent(theme)}&timeOfDay=${encodeURIComponent(timeOfDay)}&prompt=${encodeURIComponent(prompt)}`
+            })
+            .then(response => response.text())
+            .then(html => {
+                console.log('Demo scene generated successfully');
+                document.getElementById('scene-container').innerHTML = html;
+                document.getElementById('loading-overlay').classList.add('hidden');
+                setTimeout(() => scrollToStep('compose-step'), 500);
+            })
+            .catch(error => {
+                console.error('Demo scene generation failed:', error);
+                document.getElementById('loading-overlay').classList.add('hidden');
+                alert('Scene generation failed: ' + error.message);
+            });
+        }
+
+        function downloadImage(url) {
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'bananaverse_merged_' + Date.now() + '.png';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>

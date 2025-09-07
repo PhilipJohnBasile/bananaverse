@@ -1,0 +1,10 @@
+.git
+.gitignore
+README.md
+.env
+.env.example
+Dockerfile
+.dockerignore
+bananaverse
+static/uploads/
+*.log
